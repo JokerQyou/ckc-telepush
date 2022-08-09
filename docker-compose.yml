@@ -1,0 +1,50 @@
+version: '3'
+services:
+  chrome:
+    image: easychen/checkchan
+    volumes:
+      - checkchan-data:/checkchan/data
+    environment:
+      - "CKC_PASSWD=checkchanWeb" # web 远程桌面的密码
+      - "VDEBUG=ON"
+      - "VNC=ON"
+      - "WIN_WIDTH=1346"
+      - "WIN_HEIGHT=720"
+      - "XVFB_WHD=1366x768x16"
+      - "API_KEY=JustCHeckChan0800" # 浏览器扩展中设置云端时要使用的 API 密钥
+      - "ERROR_IMAGE=NORMAL" # NONE,NORMAL,FULL
+      #- "SNAP_URL_BASE=http://IP..."
+      #- "SNAP_FULL=1"
+      - "TZ=Asia/Shanghai"
+      - "WEBHOOK_URL=http://telepush:8080/api/inlets/checkchan/TELEPUSH_TOKEN"
+      #- "PROXY_SERVER=http://proxy.ip:port" # 代理服务器地址，目前仅DOM监测支持代理
+    ports:
+      - "10020:5900" # 使用 VNC 软件可连接此端口
+      - "10021:8080" # 远程桌面 web 界面，直接浏览器访问即可操作容器内的 Chrome 浏览器
+      - "10022:80" # Check酱云端端口
+    restart: unless-stopped
+  telepush:
+    build:
+      context: ./telepush
+      # 如果环境在国外，建议注释这两行
+      args:
+        GOPROXY: https://proxy.golang.com.cn,direct
+    restart: unless-stopped
+    environment:
+      - APP_MODE=poll
+      - APP_TOKEN=BOT_TOKEN # 将 BOT_TOKEN 更换为 Telegram 机器人的 token
+      # - APP_WHITELIST=/srv/data/whitelist.txt
+    volumes:
+      - telepush-data:/srv/data
+
+volumes:
+  telepush-data:
+    driver_opts:
+      type: none
+      o: bind
+      device: /TELEPUSH_DATA_DIR # 将这个路径换成 telepush 要保存数据的绝对路径
+  checkchan-data:
+    driver_opts:
+      type: none
+      o: bind
+      device: /CHECKCHAN_DATA_DIR # 将这个路径换成 Check酱要保存数据的绝对路径

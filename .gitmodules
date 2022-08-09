@@ -1,0 +1,3 @@
+[submodule "telepush"]
+	path = telepush
+	url = https://github.com/JokerQyou/telepush.git
