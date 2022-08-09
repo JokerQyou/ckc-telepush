@@ -4,15 +4,14 @@ Simple integration for CheckChan => Telepush. 适用于 Check酱 与 Telepush �
 
 # 注意
 
-- 请支持原作者。如果您使用国内推送，建议购买原作者提供的 Server酱 推送服务。
+- 请支持原作者。如果您使用国内推送，建议直接使用原作者提供的 [Server酱](https://sct.ftqq.com) 推送服务，并考虑付费订阅。
 - 您需要可以访问 Telegram API。
 - 您需要知道如何创建 Telegram 机器人，并知道如何获得其 token。
 - 您需要知道如何在终端中运行命令，并具备 docker 相关的基础知识。
 
 # 如何部署
 
-- 下载本项目：`git clone https://github.com/JokerQyou/ckc-telepush.git`。以下操作都是在项目目录中进行的。
-- 初始化子模块：``
+- 下载本项目并检出子模块：`git clone --recurse-submodules https://github.com/JokerQyou/ckc-telepush.git`。以下操作都是在项目目录中进行的。
 - 编辑 `docker-compose.yml`，替换以下内容：
   - 两个数据卷的路径。您需要确保这两个目录存在。
   - BOT_TOKEN 替换为 Telegram 机器人的 token。
